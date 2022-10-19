@@ -30,8 +30,12 @@ ctrl.putTarea = async(req, res)=>{
     const id = req.params.id
 
     const actualizarTarea = await Tareas.findByIdAndUpdate(id, {titulo, descripcion})
-
+    const validacion = await Tareas.findOne({userID:req.user._id, _id:id})
+    if(!validacion){
+        return res.json("No está autorizado");
+    }
     if(!actualizarTarea){
+
         res.json("No se pudo actualizar la tarea")
     }
 

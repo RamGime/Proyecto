@@ -9,6 +9,13 @@ ctrl.registrarse = async(req, res)=>{
 
     const contraseñaCifrada = bcrypt.hashSync(contraseña, 10)
 
+    const usuarioExiste = await Usuario.findOne({
+        usuario: req.usuario
+    })
+    if(usuarioExiste){
+        res.json('Usuario ya registrado')
+    }
+
     const nuevoUsuario = new Usuario({
         usuario,
         correo,
